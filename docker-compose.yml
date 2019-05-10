@@ -3,26 +3,17 @@ services:
   client:
     build:
       context: .
-      dockerfile: Dockerfile-client
-    container_name: Client
+      dockerfile: Dockerfile
+    container_name: nba-app-client
     image: nba_app
     environment:
       - NODE_ENV=development
       - REACT_APP_SERVER_HOST=http://localhost:3000
     ports:
-      - 3001:3000
+      - 3000:3000
     volumes:
       - "./:/app"
-      - "/app/node_modules"
-    
-  json-server:
-    image: williamyeh/json-server
-    command: -H localhost -p 3004 -w db.json
-    ports:
-      - "3004:3004"
-    volumes:
-      - "./:/app"
-      - ./data:/data
-
 volumes:
   ? data
+
+  # docker run -d --name nba-app-server -p 80:80 -v `pwd`/data/db.json:/data/db.json clue/json-server

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import eventBus from '../../../../util/EventBus'
-import newsServiceInstance, { newsAllLoadedEvent } from '../../../../services/news'
+import newsServiceInstance, { newsAllLoadedEvent } from '../../../../services'
 
 
 class NewsSlider extends Component {

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import eventBus from '../../../../util/EventBus'
-import newsServiceInstance, { newsAllLoadedEvent } from '../../../../services'
+import newsServiceInstance, { newsLoadedEvent } from '../../../../services'
+import SliderTemplates from '../SliderTemplates'
 
 
 class NewsSlider extends Component {
@@ -13,14 +14,18 @@ class NewsSlider extends Component {
     }
 
     componentDidMount(){
-        eventBus.registerEvent(newsAllLoadedEvent, this.state.setUpNewsList)
-        newsServiceInstance.getAllNews()
+        eventBus.registerEvent(newsLoadedEvent, this.state.setUpNewsList)
+        newsServiceInstance.getNewsByInterval(this.props.start,this.props.end)
     }
+
+    componentWillUnmount () {
+        eventBus.unsubscribe(newsLoadedEvent)
+      }
 
     render() {
         return (
             <div>
-                SLIDER
+                <SliderTemplates items={this.state.news} type={this.props.type} settings={this.props.settings}/>
             </div>
         );
     }

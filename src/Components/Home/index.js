@@ -6,7 +6,13 @@ class Home extends Component {
     render() {
         return (
             <div>
-                <NewsSlider/>
+                <NewsSlider 
+                    type = "featured" 
+                    start = {0} 
+                    end = {3}
+                    settings = {{
+                        dots: false
+                    }}/>
             </div>
         );
     }

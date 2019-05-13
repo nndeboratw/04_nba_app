@@ -1,16 +1,23 @@
 import { newsCallback, errorCallback } from './promiseCallback'
-import { getAllNewsPromise } from './promiseFactory'
+import { getAllNewsPromise, getNewsByIntervalPromise } from './promiseFactory'
 
 class NewsService {
   constructor () {
     this.news = {}
     this.load = {}
-    this.playload = {}
+    this.payload = {}
     this.errorCallback = errorCallback
   }
 
   async getAllNews () {
     this.load.currentPromiseFunction = getAllNewsPromise
+    this.load.currentCallback = newsCallback
+    this.resolveNewsPromise()
+  }
+  async getNewsByInterval (start,end) {
+    this.payload.start=start
+    this.payload.end=end
+    this.load.currentPromiseFunction = getNewsByIntervalPromise
     this.load.currentCallback = newsCallback
     this.resolveNewsPromise()
   }
@@ -22,7 +29,7 @@ class NewsService {
   }
 
   resolveNewsPromise () {
-    this.load.activePromise = this.load.currentPromiseFunction(this.playload)
+    this.load.activePromise = this.load.currentPromiseFunction(this.payload)
     let vm = this
     if (this.load.currentCallback instanceof Function) {
       this.load.activePromise

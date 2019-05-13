@@ -17,6 +17,8 @@ describe('promiseFactory', () => {
         it('should evoke a get once', () => {
           getAllNewsPromise()
           global.expect(spyget).toHaveBeenCalledTimes(1)
+          console.log(global);
+          
         })
         it("should evoke a get with the url '/articles' ", () => {
           getAllNewsPromise()

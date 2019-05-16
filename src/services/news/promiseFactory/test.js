@@ -1,4 +1,4 @@
-import request from '../../util/Request'
+import request from '../../../util/Request'
 import { getAllNewsPromise, getNewsByIntervalPromise } from '.'
 
 let spyget

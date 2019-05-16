@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
-import newsServiceInstance, { newsLoadedEvent } from '../../../../services'
+import newsServiceInstance, { newsLoadedEvent } from '../../../../services/news'
 import eventBus from '../../../../util/EventBus'
 import ListTemplates from '../Templates'
 

@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import eventBus from '../../util/EventBus'
+import eventBus from '../../../util/EventBus'
 import { newsCallback } from '.'
 import newsServiceInstance from '..'
 import { newsLoadedEvent } from '..'

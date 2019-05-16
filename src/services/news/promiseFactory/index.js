@@ -1,4 +1,4 @@
-import request from '../../util/Request'
+import request from '../../../util/Request'
 
 const getAllNewsPromise = () => {
   return request.get('/news')

@@ -1,4 +1,4 @@
-import eventBus from '../../util/EventBus'
+import eventBus from '../../../util/EventBus'
 import { newsLoadedEvent, newsErrorEvent } from '..'
 
 const newsCallback = (response, vm) => {

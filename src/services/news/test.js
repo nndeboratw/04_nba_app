@@ -5,9 +5,7 @@ import { newsCallback}
   from './promiseCallback'
 import { getAllNewsPromise, getNewsByIntervalPromise }
   from './promiseFactory'
-import request from '../util/Request'
-
-let spyget
+import request from '../../util/Request'
 
 const spec = `specification for usage, use only the async 
     methods ment to produce final product. 
@@ -66,7 +64,7 @@ describe('NewsService class Spec', () => {
     describe('getAllNews', () => {
       describe('with blank objects', () => {
         beforeEach(() => {
-          spyget = global.spyOn(request, 'get').and.returnValue(Promise.resolve([{}, {}]))
+          global.spyOn(request, 'get').and.returnValue(Promise.resolve([{}, {}]))
         })
         it('should make the load.currentPromiseFunction equals to the getAllNewsPromise', async () => {
           await newsServiceInstance.getAllNews()
@@ -89,7 +87,7 @@ describe('NewsService class Spec', () => {
         describe('getNewsByInterval', () => {
             describe('with blank objects', () => {
             beforeEach(() => {
-                spyget = global.spyOn(request, 'get').and.returnValue(Promise.resolve([{id:1,team:3}, {id:2,team:4}]))
+                global.spyOn(request, 'get').and.returnValue(Promise.resolve([{id:1,team:3}, {id:2,team:4}]))
             })
             it('should make the load.currentPromiseFunction equals to the getAllNewsPromise', async () => {
                 await newsServiceInstance.getNewsByInterval()
@@ -104,6 +102,7 @@ describe('NewsService class Spec', () => {
             it('should load into the resources.list the value of [{}, {}]', async () => {
                 await newsServiceInstance.getNewsByInterval()
                 expect(newsServiceInstance.news.list).to.be.eql([{id:1,team:3}, {id:2,team:4}])
+                expect(newsServiceInstance.news.list).to.be.eql([{id:1,team:3}, {id:2,team:4}])
             })
             })
         })
@@ -113,7 +112,6 @@ describe('NewsService class Spec', () => {
   describe('resetService', () => {
     it('should turn the payload into empty string', () => {
         newsServiceInstance.resetService()
-        console.log(newsServiceInstance.payload);
         
       expect(newsServiceInstance.payload.start).to.be.eqls('')
       expect(newsServiceInstance.payload.end).to.be.eqls('')
@@ -133,7 +131,7 @@ describe('NewsService class Spec', () => {
   describe('resolveNewsPromise', () => {
     describe('return as list', () => {
       beforeEach(() => {
-        spyget = global.spyOn(request, 'get').and.returnValue(Promise.resolve([{}, {}]))
+        global.spyOn(request, 'get').and.returnValue(Promise.resolve([{}, {}]))
         newsServiceInstance.load.currentPromiseFunction = getAllNewsPromise
         newsServiceInstance.load.currentCallback = newsCallback
       })

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import NewsSlider from '../widgets/Sliders/News';
+import NewsList from '../widgets/Lists/News'
 
 
 class Home extends Component {
@@ -13,6 +14,11 @@ class Home extends Component {
                     settings = {{
                         dots: false
                     }}/>
+                <NewsList
+                    type = "card"
+                    start = {0}
+                    amount = {4} 
+                    loadmore = {true}/>
             </div>
         );
     }

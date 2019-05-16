@@ -1,7 +1,6 @@
 import React from 'react';
 import Slick from 'react-slick'
 import './slides.css'
-// import {Link} from 'react-router-dom'
 import ArticlesTemplate from './Articles'
 
 const SliderTemplates = (props) =>{

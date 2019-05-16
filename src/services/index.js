@@ -26,6 +26,8 @@ class NewsService {
   resetService () {
     this.load.currentPromiseFunction = {}
     this.load.currentCallback = {}
+    this.payload.start = ''
+    this.payload.end = ''
   }
 
   resolveNewsPromise () {

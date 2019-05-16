@@ -1,7 +1,5 @@
-import { expect } from 'chai'
 import eventBus from '../../../util/EventBus'
 import { newsCallback } from '.'
-import newsServiceInstance from '..'
 import { newsLoadedEvent } from '..'
 
 let spyEventBus
@@ -13,23 +11,18 @@ describe('promiseCallBacks', () => {
 
   describe('resolvedPromise callbacks', () => {
     describe('newsCallback', () => {
-      it('should pass value from response into the news.list', () => {
-        let response = []
-        newsCallback(response, newsServiceInstance)
-        expect(newsServiceInstance.news.list).to.be.eqls(response)
-      })
 
       it('should evoke dispatchEvent from eventBus once', () => {
         spyEventBus = global.spyOn(eventBus, 'dispatchEvent')
         let response = []
-        newsCallback(response, newsServiceInstance)
+        newsCallback(response)
         global.expect(spyEventBus).toHaveBeenCalledTimes(1)
       })
 
       it('should evoke dispatchEvent from eventBus with expected values', () => {
         spyEventBus = global.spyOn(eventBus, 'dispatchEvent')
         let response = []
-        newsCallback(response, newsServiceInstance)
+        newsCallback(response, newsLoadedEvent)
         global.expect(spyEventBus).toHaveBeenCalledWith(newsLoadedEvent, response)
       })
     })    

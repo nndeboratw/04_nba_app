@@ -18,7 +18,6 @@ class NewsList extends Component {
     }
 
     componentDidMount(){
-        
         eventBus.registerEvent(newsLoadedEvent, this.setUpNewsList)
         newsServiceInstance.getNewsByInterval(this.state.start,this.state.end)
     }

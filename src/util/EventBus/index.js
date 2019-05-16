@@ -21,6 +21,7 @@ class EventBus {
     }
   
     dispatchEvent (eventName, params) {
+
       if (this.events[eventName]) {
         this.events[eventName].forEach(callback => {
           try {

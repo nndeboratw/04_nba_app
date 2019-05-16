@@ -1,58 +1,71 @@
-import { newsCallback, errorCallback } from './promiseCallback'
+import { newsCallback, errorCallback} from './promiseCallback'
 import { getAllNewsPromise, getNewsByIntervalPromise } from './promiseFactory'
 
 class NewsService {
   constructor () {
-    this.news = {}
-    this.load = {}
-    this.payload = {}
     this.errorCallback = errorCallback
   }
 
-  async getAllNews () {
-    this.load.currentPromiseFunction = getAllNewsPromise
-    this.load.currentCallback = newsCallback
-    this.resolveNewsPromise()
+  async getHighlightsByInterval(start, end){
+    let requestConfiguration = this.configureRequest(getNewsByIntervalPromise,newsCallback, highlightsLoadedEvent, 
+      {start: start,
+      end: end
+    })
+    this.resolveNewsPromise(requestConfiguration)
+      
   }
+
   async getNewsByInterval (start,end) {
-    this.payload.start=start
-    this.payload.end=end
-    this.load.currentPromiseFunction = getNewsByIntervalPromise
-    this.load.currentCallback = newsCallback
-    this.resolveNewsPromise()
+    let requestConfiguration = this.configureRequest(getNewsByIntervalPromise,newsCallback, newsLoadedEvent, 
+      {start: start,
+      end: end
+    })
+    this.resolveNewsPromise(requestConfiguration)
   }
 
-
-  resetService () {
-    this.load.currentPromiseFunction = {}
-    this.load.currentCallback = {}
-    this.payload.start = ''
-    this.payload.end = ''
+  async getAllNews () {
+    let requestConfiguration = this.configureRequest(getAllNewsPromise,newsCallback, newsLoadedEvent, 
+      {})
+    this.resolveNewsPromise(requestConfiguration)
   }
 
-  resolveNewsPromise () {
-    this.load.activePromise = this.load.currentPromiseFunction(this.payload)
-    let vm = this
-    if (this.load.currentCallback instanceof Function) {
-      this.load.activePromise
-        .then(response => vm.load.currentCallback(response, vm))
+  configureRequest (currentPromiseFunction, currentCallback, responseEvent, payload)  {
+    let requestConfiguration = {
+      load: {
+        currentPromiseFunction: currentPromiseFunction,
+        currentCallback: currentCallback
+      },
+      payload: payload,
+      responseEvent: responseEvent
+    }
+    return requestConfiguration
+  }
+
+  resolveNewsPromise (requestConfiguration) {
+    requestConfiguration.load.activePromise = requestConfiguration.load.currentPromiseFunction(requestConfiguration.payload)
+  
+    if (requestConfiguration.load.currentCallback instanceof Function) {
+      requestConfiguration.load.activePromise
+        .then(response => requestConfiguration.load.currentCallback(response, requestConfiguration.responseEvent))
         .catch(e => {
-          vm.load.exception = e
-          vm.errorCallback(e, vm)
+          
+          this.errorCallback(e)
         })
     } else {
-      this.load.error = 'callback function not properly setup'
+      // requestConfiguration.load.error = 'callback function not properly setup'
     }
   }
 }
 
 const newsServiceInstance = new NewsService()
 const newsLoadedEvent = 'newsLoadedEvent'
+const highlightsLoadedEvent = 'highlightsLoadedEvent'
 const newsErrorEvent = 'newsErrorEvent'
 
 export default newsServiceInstance
 
 export {
     newsLoadedEvent,
-    newsErrorEvent
+    newsErrorEvent,
+    highlightsLoadedEvent
 }

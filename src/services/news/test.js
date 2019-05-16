@@ -1,6 +1,6 @@
 import { expect } from 'chai'
 import newsServiceInstance,
-{ newsLoadedEvent} from '.'
+{ newsLoadedEvent, highlightsLoadedEvent} from '.'
 import { newsCallback}
   from './promiseCallback'
 import { getAllNewsPromise, getNewsByIntervalPromise }
@@ -35,13 +35,6 @@ describe('NewsService class Spec', () => {
   })
 
   describe('smoke/base tests', () => {
-    it('should have a property called news', () => {
-      expect(newsServiceInstance.news).to.be.a('object')
-    })
-
-    it('should have a property called load', () => {
-      expect(newsServiceInstance.load).to.be.a('object')
-    })
 
     it('should have a method called resolveNewsPromise', () => {
       expect(newsServiceInstance.resolveNewsPromise).to.be.a('function')
@@ -55,98 +48,52 @@ describe('NewsService class Spec', () => {
       expect(newsServiceInstance.getNewsByInterval).to.be.a('function')
     })
 
-    it('should have a method called resetService', () => {
-      expect(newsServiceInstance.resetService).to.be.a('function')
+    it('should have a method called getHighlightsByInterval', () => {
+      expect(newsServiceInstance.getHighlightsByInterval).to.be.a('function')
     })
   })
-
-  describe('get all news suite', () => {
+  let spyOnService
+  describe('get  news suite', () => {
     describe('getAllNews', () => {
       describe('with blank objects', () => {
         beforeEach(() => {
           global.spyOn(request, 'get').and.returnValue(Promise.resolve([{}, {}]))
+          spyOnService = global.spyOn(newsServiceInstance, 'configureRequest')
         })
         it('should make the load.currentPromiseFunction equals to the getAllNewsPromise', async () => {
-          await newsServiceInstance.getAllNews()
-          expect(newsServiceInstance.load.currentPromiseFunction).to.be.eql(getAllNewsPromise)
-        })
-
-        it('should make the load.currentCallback equals to newsCallback', async () => {
-          await newsServiceInstance.getAllNews()
-          expect(newsServiceInstance.load.currentCallback.name).to.be.eql(newsCallback.name)
-        })
-
-        it('should load into the resources.list the value of [{}, {}]', async () => {
-          await newsServiceInstance.getAllNews()
-          expect(newsServiceInstance.news.list).to.be.eql([{}, {}])
+          newsServiceInstance.getAllNews()
+          global.expect(spyOnService).toHaveBeenCalledWith(getAllNewsPromise, newsCallback, newsLoadedEvent, {})
         })
       })
     })
 
-    describe('get news by interval suite', () => {
-        describe('getNewsByInterval', () => {
-            describe('with blank objects', () => {
-            beforeEach(() => {
-                global.spyOn(request, 'get').and.returnValue(Promise.resolve([{id:1,team:3}, {id:2,team:4}]))
-            })
-            it('should make the load.currentPromiseFunction equals to the getAllNewsPromise', async () => {
-                await newsServiceInstance.getNewsByInterval()
-                expect(newsServiceInstance.load.currentPromiseFunction).to.be.eql(getNewsByIntervalPromise)
-            })
-
-            it('should make the load.currentCallback equals to newsCallback', async () => {
-                await newsServiceInstance.getNewsByInterval()
-                expect(newsServiceInstance.load.currentCallback.name).to.be.eql(newsCallback.name)
-            })
-
-            it('should load into the resources.list the value of [{}, {}]', async () => {
-                await newsServiceInstance.getNewsByInterval()
-                expect(newsServiceInstance.news.list).to.be.eql([{id:1,team:3}, {id:2,team:4}])
-                expect(newsServiceInstance.news.list).to.be.eql([{id:1,team:3}, {id:2,team:4}])
-            })
-            })
+    describe('getNewsByInterval', () => {
+      describe('with blank objects', () => {
+        beforeEach(() => {
+          global.spyOn(request, 'get').and.returnValue(Promise.resolve([{}, {}]))
+          spyOnService = global.spyOn(newsServiceInstance, 'configureRequest')
         })
+        it('should make the load.currentPromiseFunction equals to the getAllNewsPromise', async () => {
+          newsServiceInstance.getNewsByInterval(0, 1)
+          global.expect(spyOnService).toHaveBeenCalledWith(getNewsByIntervalPromise, newsCallback, newsLoadedEvent, {start: 0, end: 1})
+        })
+      })
     })
   })
 
-  describe('resetService', () => {
-    it('should turn the payload into empty string', () => {
-        newsServiceInstance.resetService()
-        
-      expect(newsServiceInstance.payload.start).to.be.eqls('')
-      expect(newsServiceInstance.payload.end).to.be.eqls('')
-    })
-
-    it('should turn the load.currentPromiseFunction into empty object', () => {
-        newsServiceInstance.resetService()
-      expect(newsServiceInstance.load.currentPromiseFunction).to.be.eqls({})
-    })
-
-    it('should turn the load.currentPromiseFunction into empty object', () => {
-        newsServiceInstance.resetService()
-      expect(newsServiceInstance.load.currentCallback).to.be.eqls({})
-    })
-  })
-
-  describe('resolveNewsPromise', () => {
-    describe('return as list', () => {
-      beforeEach(() => {
-        global.spyOn(request, 'get').and.returnValue(Promise.resolve([{}, {}]))
-        newsServiceInstance.load.currentPromiseFunction = getAllNewsPromise
-        newsServiceInstance.load.currentCallback = newsCallback
-      })
-      it('should store in the activePromise the resulting promise from the get', () => {
-        newsServiceInstance.resolveNewsPromise()
-        expect(newsServiceInstance.load.activePromise).to.be.an('Promise')
-      })
-      it('should store in the news.list the resolved value as an array', () => {
-        newsServiceInstance.resolveNewsPromise()
-        expect(newsServiceInstance.news.list).to.be.an('array')
-      })
-      it('should news.list have length of 2', () => {
-        newsServiceInstance.resolveNewsPromise()
-        expect(newsServiceInstance.news.list.length).to.be.equals(2)
+  describe('get  highlights suite', () => {
+    describe('getHighlightsByInterval', () => {
+      describe('with blank objects', () => {
+        beforeEach(() => {
+          global.spyOn(request, 'get').and.returnValue(Promise.resolve([{}, {}]))
+          spyOnService = global.spyOn(newsServiceInstance, 'configureRequest')
+        })
+        it('should make the load.currentPromiseFunction equals to the getAllNewsPromise', async () => {
+          newsServiceInstance.getHighlightsByInterval(0, 1)
+          global.expect(spyOnService).toHaveBeenCalledWith(getNewsByIntervalPromise, newsCallback, highlightsLoadedEvent, {start: 0, end: 1})
+        })
       })
     })
   })
+  
 })

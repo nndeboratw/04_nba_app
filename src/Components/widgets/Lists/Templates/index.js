@@ -1,5 +1,7 @@
 import React from 'react';
+import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import CardTemplate from './Card'
+import '../list.css'
 
 const ListTemplates = (props) => {
     
@@ -7,9 +9,19 @@ const ListTemplates = (props) => {
     switch (props.type) {
         case 'card':
             template = props.items.map((item,i) => (
-                <div key = {i}>
-                    <CardTemplate item={item}/>
-                </div>
+                <CSSTransition
+                    classNames={{
+                        enter:"newsList_wrapper",
+                        enterActive:"newsList_wrapper_enter"
+                    }}
+                    timeout = {500}
+                    key = {i}
+                    >
+                    <div >
+                        <CardTemplate item={item}/>
+                    </div>
+                </CSSTransition>
+                
             ))
             break;
     
@@ -19,7 +31,12 @@ const ListTemplates = (props) => {
     }
     return (
         <div>
-            {template}
+            <TransitionGroup
+                    component = "div"
+                    className = "list"
+                    >
+                    {template}
+            </TransitionGroup>  
         </div>
     )
   

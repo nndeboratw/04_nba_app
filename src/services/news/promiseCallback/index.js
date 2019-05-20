@@ -4,10 +4,9 @@ const newsCallback = (response, event) => {
   let news = response
   eventBus.dispatchEvent(event, news)
 }
-
-const newsCallbackNew = (response, event) => {
-  let news = response
-  eventBus.dispatchEvent(event, news)
+const teamsCallback = (response, event) => {
+  let teams = response
+  eventBus.dispatchEvent(event, teams)
 }
 
 const errorCallback = (error, event) => {
@@ -17,5 +16,6 @@ const errorCallback = (error, event) => {
 export {
   newsCallback,
   errorCallback,
-  newsCallbackNew
+  teamsCallback,
+
 }

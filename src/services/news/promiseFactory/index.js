@@ -9,8 +9,13 @@ const getNewsByIntervalPromise = (interval) => {
   return request.get(endpoint)
 }
 
+const getTeamsPromise = () => {
+  return request.get('/teams')
+}
+
 
 export {
   getAllNewsPromise,
-  getNewsByIntervalPromise
+  getNewsByIntervalPromise,
+  getTeamsPromise
 }

@@ -1,5 +1,5 @@
 import request from '../../../util/Request'
-import { getAllNewsPromise, getNewsByIntervalPromise } from '.'
+import { getAllNewsPromise, getNewsByIntervalPromise, getTeamsPromise } from '.'
 
 let spyget
 
@@ -49,6 +49,24 @@ describe('promiseFactory', () => {
         it("should evoke a get with the url '/news?_start=0&_end=1", () => {
           getNewsByIntervalPromise({start: 0, end: 1})
           global.expect(spyget).toHaveBeenCalledWith('/news?_start=0&_end=1')
+        })
+      })
+    })
+
+    describe('getTeamsPromise', () => {
+      describe('promise context', () => {
+        beforeEach(() => {
+          let mockPromiseResponse = Promise.resolve(news)
+          spyget = global.spyOn(request, 'get').and.returnValue(mockPromiseResponse)
+        })
+        it('should evoke a get once', () => {
+          getTeamsPromise({start: 0, end: 1})
+          global.expect(spyget).toHaveBeenCalledTimes(1)
+          
+        })
+        it("should evoke a get with the url '/news?_start=0&_end=1", () => {
+          getTeamsPromise({start: 0, end: 1})
+          global.expect(spyget).toHaveBeenCalledWith('/teams')
         })
       })
     })

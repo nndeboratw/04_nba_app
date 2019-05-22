@@ -1,6 +1,6 @@
 import eventBus from '../../../util/EventBus'
-import { newsCallback, teamsCallback } from '.'
-import { newsLoadedEvent, teamsLoadedEvent } from '..'
+import { newsCallback, teamsCallback, videosCallback } from '.'
+import { newsLoadedEvent, teamsLoadedEvent, videosLoadedEvent } from '..'
 
 let spyEventBus
 
@@ -40,6 +40,22 @@ describe('promiseCallBacks', () => {
         let response = []
         teamsCallback(response, teamsLoadedEvent)
         global.expect(spyEventBus).toHaveBeenCalledWith(teamsLoadedEvent, response)
+      })
+    }) 
+    describe('videosCallback', () => {
+
+      it('should evoke dispatchEvent from eventBus once', () => {
+        spyEventBus = global.spyOn(eventBus, 'dispatchEvent')
+        let response = []
+        videosCallback(response)
+        global.expect(spyEventBus).toHaveBeenCalledTimes(1)
+      })
+
+      it('should evoke dispatchEvent from eventBus with expected values', () => {
+        spyEventBus = global.spyOn(eventBus, 'dispatchEvent')
+        let response = []
+        videosCallback(response, videosLoadedEvent)
+        global.expect(spyEventBus).toHaveBeenCalledWith(videosLoadedEvent, response)
       })
     }) 
   })

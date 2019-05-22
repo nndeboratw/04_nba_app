@@ -1,9 +1,9 @@
 import { expect } from 'chai'
 import newsServiceInstance,
-{ newsLoadedEvent, highlightsLoadedEvent, teamsLoadedEvent} from '.'
-import { newsCallback, teamsCallback}
+{ newsLoadedEvent, highlightsLoadedEvent, teamsLoadedEvent, videosLoadedEvent} from '.'
+import { newsCallback, teamsCallback, videosCallback}
   from './promiseCallback'
-import { getAllNewsPromise, getNewsByIntervalPromise, getTeamsPromise }
+import { getAllNewsPromise, getNewsByIntervalPromise, getTeamsPromise, getVideosByIntervalPromise }
   from './promiseFactory'
 import request from '../../util/Request'
 
@@ -92,7 +92,7 @@ describe('NewsService class Spec', () => {
           global.spyOn(request, 'get').and.returnValue(Promise.resolve([{}, {}]))
           spyOnService = global.spyOn(newsServiceInstance, 'configureRequest')
         })
-        it('should make the load.currentPromiseFunction equals to the getAllNewsPromise', async () => {
+        it('should make the load.currentPromiseFunction equals to the getANewsByIntervalPromise', async () => {
           newsServiceInstance.getHighlightsByInterval(0, 1)
           global.expect(spyOnService).toHaveBeenCalledWith(getNewsByIntervalPromise, newsCallback, highlightsLoadedEvent, {start: 0, end: 1})
         })
@@ -114,5 +114,22 @@ describe('NewsService class Spec', () => {
       })
     })
   })
+
+  describe('get  videos suite', () => {
+    describe('getVideosByInterval', () => {
+      describe('with blank objects', () => {
+        beforeEach(() => {
+          global.spyOn(request, 'get').and.returnValue(Promise.resolve([{}, {}]))
+          spyOnService = global.spyOn(newsServiceInstance, 'configureRequest')
+        })
+        it('should make the load.currentPromiseFunction equals to the getVideosByIntervalPromise', async () => {
+          newsServiceInstance.getVideosByInterval(0, 1)
+          global.expect(spyOnService).toHaveBeenCalledWith(getVideosByIntervalPromise, videosCallback, videosLoadedEvent, {start: 0, end: 1})
+        })
+      })
+    })
+  })
+
+  
   
 })

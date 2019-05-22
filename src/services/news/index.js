@@ -1,5 +1,5 @@
-import { newsCallback, errorCallback, teamsCallback} from './promiseCallback'
-import { getAllNewsPromise, getNewsByIntervalPromise, getTeamsPromise } from './promiseFactory'
+import { newsCallback, errorCallback, teamsCallback, videosCallback} from './promiseCallback'
+import { getAllNewsPromise, getNewsByIntervalPromise, getTeamsPromise, getVideosByIntervalPromise } from './promiseFactory'
 
 
 class NewsService {
@@ -32,6 +32,14 @@ class NewsService {
 
   async getTeams () {
     let requestConfiguration = this.configureRequest(getTeamsPromise,teamsCallback, teamsLoadedEvent)
+    this.resolveNewsPromise(requestConfiguration)
+  }
+
+  async getVideosByInterval (start,end) {
+    let requestConfiguration = this.configureRequest(getVideosByIntervalPromise,videosCallback, videosLoadedEvent, 
+      {start: start,
+      end: end
+    })
     this.resolveNewsPromise(requestConfiguration)
   }
 
@@ -70,6 +78,7 @@ const newsLoadedEvent = 'newsLoadedEvent'
 const highlightsLoadedEvent = 'highlightsLoadedEvent'
 const newsErrorEvent = 'newsErrorEvent'
 const teamsLoadedEvent = 'teamsLoadedEvent'
+const videosLoadedEvent = 'videosLoadedEvent' 
 
 export default newsServiceInstance
 
@@ -77,5 +86,6 @@ export {
     newsLoadedEvent,
     newsErrorEvent,
     highlightsLoadedEvent,
-    teamsLoadedEvent
+    teamsLoadedEvent,
+    videosLoadedEvent
 }

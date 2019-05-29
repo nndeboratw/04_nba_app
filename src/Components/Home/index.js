@@ -25,7 +25,7 @@ class Home extends Component {
                     type = "video-card"
                     start = {0}
                     amount = {4} 
-                    loadmore = {false}
+                    loadmore = {true}
                     title = {true}/>
             </div>
         );

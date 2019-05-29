@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import NewsSlider from '../widgets/Sliders/News';
-import NewsList from '../widgets/Lists/News'
+import NewsList from '../widgets/Lists/News';
+import VideosList from '../widgets/Lists/Videos';
 
 
 class Home extends Component {
@@ -16,9 +17,16 @@ class Home extends Component {
                     }}/>
                 <NewsList
                     type = "card"
-                    start = {0}
+                    start = {3}
                     amount = {4} 
                     loadmore = {true}/>
+
+                <VideosList
+                    type = "video-card"
+                    start = {0}
+                    amount = {4} 
+                    loadmore = {false}
+                    title = {true}/>
             </div>
         );
     }

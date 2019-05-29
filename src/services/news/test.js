@@ -1,9 +1,9 @@
 import { expect } from 'chai'
 import newsServiceInstance,
-{ newsLoadedEvent, highlightsLoadedEvent, teamsLoadedEvent, videosLoadedEvent} from '.'
-import { newsCallback, teamsCallback, videosCallback}
+{ newsLoadedEvent, highlightsLoadedEvent, teamsLoadedEvent, videosLoadedEvent, teamByIdLoadedEvent, newsByIdLoadedEvent} from '.'
+import { newsCallback, teamsCallback, videosCallback, teamByIdCallback, newsByIdCallback}
   from './promiseCallback'
-import { getAllNewsPromise, getNewsByIntervalPromise, getTeamsPromise, getVideosByIntervalPromise }
+import { getAllNewsPromise, getNewsByIntervalPromise, getTeamsPromise, getVideosByIntervalPromise, getTeamByIdPromise, getNewByIdPromise }
   from './promiseFactory'
 import request from '../../util/Request'
 
@@ -83,6 +83,18 @@ describe('NewsService class Spec', () => {
         })
       })
     })
+    describe('getNewsById', () => {
+      describe('with blank objects', () => {
+        beforeEach(() => {
+          global.spyOn(request, 'get').and.returnValue(Promise.resolve({}))
+          spyOnService = global.spyOn(newsServiceInstance, 'configureRequest')
+        })
+        it('should make the load.currentPromiseFunction equals to the getTeamsPromise', async () => {
+          newsServiceInstance.getNewsById(1)
+          global.expect(spyOnService).toHaveBeenCalledWith(getNewByIdPromise, newsByIdCallback, newsByIdLoadedEvent, 1)
+        })
+      })
+    })
   })
 
   describe('get  highlights suite', () => {
@@ -110,6 +122,18 @@ describe('NewsService class Spec', () => {
         it('should make the load.currentPromiseFunction equals to the getTeamsPromise', async () => {
           newsServiceInstance.getTeams()
           global.expect(spyOnService).toHaveBeenCalledWith(getTeamsPromise, teamsCallback, teamsLoadedEvent)
+          })
+      })
+    })
+    describe('getTeamById', () => {
+      describe('with blank objects', () => {
+        beforeEach(() => {
+          global.spyOn(request, 'get').and.returnValue(Promise.resolve({}))
+          spyOnService = global.spyOn(newsServiceInstance, 'configureRequest')
+        })
+        it('should make the load.currentPromiseFunction equals to the getTeamsPromise', async () => {
+          newsServiceInstance.getTeamById(1)
+          global.expect(spyOnService).toHaveBeenCalledWith(getTeamByIdPromise, teamByIdCallback, teamByIdLoadedEvent, 1)
         })
       })
     })

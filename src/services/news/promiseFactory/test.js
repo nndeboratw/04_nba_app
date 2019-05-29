@@ -1,5 +1,5 @@
 import request from '../../../util/Request'
-import { getAllNewsPromise, getNewsByIntervalPromise, getTeamsPromise, getVideosByIntervalPromise } from '.'
+import { getAllNewsPromise, getNewsByIntervalPromise, getTeamsPromise, getVideosByIntervalPromise, getNewByIdPromise, getTeamByIdPromise } from '.'
 
 let spyget
 
@@ -86,8 +86,41 @@ describe('promiseFactory', () => {
           })
         })
       })
+      describe('getNewByIdPromise', () => {
+        describe('promise context', () => {
+          beforeEach(() => {
+            let mockPromiseResponse = Promise.resolve({news})
+            spyget = global.spyOn(request, 'get').and.returnValue(mockPromiseResponse)
+          })
+          it('should evoke a get once', () => {
+            getNewByIdPromise(1)
+            global.expect(spyget).toHaveBeenCalledTimes(1)
+            
+          })
+          it("should evoke a get with the url '/news/1", () => {
+            getNewByIdPromise(1)
+            global.expect(spyget).toHaveBeenCalledWith('/news/1')
+          })
+        })
+      })
+  
+      describe('getTeamByIdPromise', () => {
+        describe('promise context', () => {
+          beforeEach(() => {
+            let mockPromiseResponse = Promise.resolve(news)
+            spyget = global.spyOn(request, 'get').and.returnValue(mockPromiseResponse)
+          })
+          it('should evoke a get once', () => {
+            getTeamByIdPromise(1)
+            global.expect(spyget).toHaveBeenCalledTimes(1)
+            
+          })
+          it("should evoke a get with the url '/teams/1", () => {
+            getTeamByIdPromise(1)
+            global.expect(spyget).toHaveBeenCalledWith('/teams/1')
+          })
+        })
+      })
     })
   })
 })
-
-

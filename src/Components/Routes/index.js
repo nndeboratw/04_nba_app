@@ -11,7 +11,7 @@ class Routes extends Component {
             <Layout>
                 <Switch>
                     <Route path='/' exact component={Home}/>
-                    <Route path='articles/:id' exact component={NewsArticle}/>
+                    <Route path='/articles/:id' exact component={NewsArticle}/>
                 </Switch>
             </Layout>
         );

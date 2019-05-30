@@ -10,6 +10,7 @@ const getNewsByIntervalPromise = (interval) => {
 }
 
 const getNewByIdPromise = (id) => {
+  console.log(`getNewByIdPromise: ${id}`);
   let endpoint = `/news/${id}`
   return request.get(endpoint)
 }
@@ -19,6 +20,8 @@ const getTeamsPromise = () => {
 }
 
 const getTeamByIdPromise = (id) => {
+  // console.log(`getNewsById: ${id}`);
+  
   let endpoint = `/teams/${id}`
   return request.get(endpoint)
 }

@@ -31,6 +31,8 @@ class NewsService {
   }
 
   async getNewsById (id){
+
+    
     let requestConfiguration = this.configureRequest(getNewByIdPromise,newsByIdCallback, newsByIdLoadedEvent, 
       id)
     this.resolveNewsPromise(requestConfiguration)
@@ -42,6 +44,7 @@ class NewsService {
   }
 
   async getTeamById (id){
+    console.log(`getTeamById: ${id}`);
     let requestConfiguration = this.configureRequest(getTeamByIdPromise,teamByIdCallback, teamByIdLoadedEvent, 
       id)
     this.resolveNewsPromise(requestConfiguration)

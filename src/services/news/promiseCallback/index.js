@@ -23,6 +23,11 @@ const teamByIdCallback = (response, event) => {
   eventBus.dispatchEvent(event, team)
 }
 
+const videoByIdCallback = (response, event) => {
+  let video = response;
+  eventBus.dispatchEvent(event, video)
+}
+
 const errorCallback = (error, event) => {
   eventBus.dispatchEvent(event, error)
 }
@@ -33,6 +38,7 @@ export {
   teamsCallback,
   videosCallback,
   teamByIdCallback,
-  newsByIdCallback
+  newsByIdCallback,
+  videoByIdCallback
 
 }

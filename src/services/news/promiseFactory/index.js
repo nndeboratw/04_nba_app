@@ -28,6 +28,11 @@ const getVideosByIntervalPromise = (interval) => {
   return request.get(endpoint)
 }
 
+const getVideoByIdPromise = (id) => {
+  let endpoint = `/videos/${id}`
+  return request.get(endpoint)
+}
+
 
 export {
   getAllNewsPromise,
@@ -35,5 +40,6 @@ export {
   getTeamsPromise,
   getVideosByIntervalPromise,
   getNewByIdPromise,
-  getTeamByIdPromise
+  getTeamByIdPromise,
+  getVideoByIdPromise
 }

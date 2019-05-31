@@ -1,9 +1,9 @@
 import { expect } from 'chai'
 import newsServiceInstance,
-{ newsLoadedEvent, highlightsLoadedEvent, teamsLoadedEvent, videosLoadedEvent, teamByIdLoadedEvent, newsByIdLoadedEvent} from '.'
-import { newsCallback, teamsCallback, videosCallback, teamByIdCallback, newsByIdCallback}
+{ newsLoadedEvent, highlightsLoadedEvent, teamsLoadedEvent, videosLoadedEvent, teamByIdLoadedEvent, newsByIdLoadedEvent, videoByIdLoadedEvent} from '.'
+import { newsCallback, teamsCallback, videosCallback, teamByIdCallback, newsByIdCallback, videoByIdCallback}
   from './promiseCallback'
-import { getAllNewsPromise, getNewsByIntervalPromise, getTeamsPromise, getVideosByIntervalPromise, getTeamByIdPromise, getNewByIdPromise }
+import { getAllNewsPromise, getNewsByIntervalPromise, getTeamsPromise, getVideosByIntervalPromise, getTeamByIdPromise, getNewByIdPromise, getVideoByIdPromise }
   from './promiseFactory'
 import request from '../../util/Request'
 
@@ -149,6 +149,18 @@ describe('NewsService class Spec', () => {
         it('should make the load.currentPromiseFunction equals to the getVideosByIntervalPromise', async () => {
           newsServiceInstance.getVideosByInterval(0, 1)
           global.expect(spyOnService).toHaveBeenCalledWith(getVideosByIntervalPromise, videosCallback, videosLoadedEvent, {start: 0, end: 1})
+        })
+      })
+    })
+    describe('getVideoById', () => {
+      describe('with blank objects', () => {
+        beforeEach(() => {
+          global.spyOn(request, 'get').and.returnValue(Promise.resolve({}))
+          spyOnService = global.spyOn(newsServiceInstance, 'configureRequest')
+        })
+        it('should make the load.currentPromiseFunction equals to the getVideoByIdPromise', async () => {
+          newsServiceInstance.getVideoById(1)
+          global.expect(spyOnService).toHaveBeenCalledWith(getVideoByIdPromise, videoByIdCallback, videoByIdLoadedEvent, 1)
         })
       })
     })

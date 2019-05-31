@@ -44,7 +44,6 @@ class NewsService {
   }
 
   async getTeamById (id){
-    console.log(`getTeamById: ${id}`);
     let requestConfiguration = this.configureRequest(getTeamByIdPromise,teamByIdCallback, teamByIdLoadedEvent, 
       id)
     this.resolveNewsPromise(requestConfiguration)

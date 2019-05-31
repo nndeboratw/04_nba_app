@@ -3,6 +3,8 @@ import FontAwesome from 'react-fontawesome';
 import '../../articles.css';
 import newsServiceInstance, {teamByIdLoadedEvent, newsByIdLoadedEvent} from '../../../../services/news';
 import eventBus from '../../../../util/EventBus';
+import Header from './Header'
+import Body from './Body'
 
 class NewsArticle
  extends Component {
@@ -52,9 +54,14 @@ class NewsArticle
     afterLoaded() {
         
         return (
-            <div>
-                {this.state.article.title}
-                {this.state.team.name}
+            <div className="articleWrapper">
+                <Header 
+                    teamData = {this.state.team}
+                    author = {this.state.article.author}
+                    date = {this.state.article.date}
+                />
+                <Body
+                    article = {this.state.article}/>
                 
             </div>
             

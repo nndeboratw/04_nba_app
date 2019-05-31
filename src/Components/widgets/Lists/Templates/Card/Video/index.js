@@ -5,7 +5,6 @@ import './videocard.css';
 import CardInfo from '../CardInfo';
 
 const VideoCardTemplate = (props) =>  {
-   console.log(`url(/images/videos/${props.item.image})`);
    
     return (
        <div>
